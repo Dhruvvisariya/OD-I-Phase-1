@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP Firebase App</title>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .topnav {
+            background-color: #333;
+            overflow: hidden;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        #img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        button {
+            padding: 10px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+        https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="https://www.gstatic.com/firebasejs/8.8.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
+
+
+    <script>
+    // REPLACE WITH YOUR web app's Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyCWlASauOWjab6OqRU45eTsuY_N0MT71lM",
+        authDomain: "object-d-and-i.firebaseapp.com",
+        projectId: "object-d-and-i",
+        storageBucket: "object-d-and-i.appspot.com",
+        messagingSenderId: "536348317059",
+        appId: "1:536348317059:web:d5f982440f7a72017952b6",
+        measurementId: "G-HFYP9R202S"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    
+    // Get a reference to the storage service, which is used to create references in your storage bucket
+    var storage = firebase.storage();
+
+    // Create a storage reference from our storage service
+    var storageRef = storage.ref();
+</script>
+<script src="app.js" defer></script>
+
+</head>
+<body>
+  <div class="topnav">
+    <h1>ESP32-CAM Web App <i class="fas fa-camera"></i></h1>
+  </div>
+  <p><img id="img" width="500px"></p> 
+  <p>Last picture taken: <span id="date-time"></span></p>
+  <button id="prevButton">Previous</button>
+  <button id="nextButton">Next</button>
+
+  <script>
+    var currentIndex = 0; // Initialize index
+
+    // Reference to Picture Storage Path
+    function updateImage() {
+      var imgRef = storageRef.child('data/photo' + currentIndex + '.jpg');
+
+      imgRef.getDownloadURL().then(function (url) {
+        // `url` is the download URL for 'data/photo.jpg'
+        document.getElementById('img').src = url;
+
+      }).catch(function (error) {
+        console.error(error);
+      });
+
+      imgRef.getMetadata()
+        .then((metadata) => {
+          console.log(metadata);
+          date = new Date(metadata.timeCreated);
+          console.log(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
+          console.log(date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
+          var time = (date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds());
+          var writtenDate = (date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
+          document.getElementById("date-time").innerHTML = time + " at " + writtenDate;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+
+    // Initial call to load the first image
+    updateImage();
+
+    // Handle button click to load the previous image
+    document.getElementById("prevButton").addEventListener("click", function () {
+      if (currentIndex > 0) {
+        currentIndex--;
+        updateImage();
+      }
+    });
+
+    // Handle button click to load the next image
+    document.getElementById("nextButton").addEventListener("click", function () {
+      currentIndex++;
+      updateImage();
+    });
+  </script>
+</body>
+</html>
