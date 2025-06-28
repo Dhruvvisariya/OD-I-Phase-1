@@ -19,15 +19,15 @@ int distance = 0;
 
 
 //Replace with your network credentials
-const char* ssid = "DhruvVisariya";
-const char* password = "Dhruv2108";
+const char* ssid = "********";
+const char* password = "*******";
 
 // Insert Firebase project API Key
 #define API_KEY "AIzaSyCWlASauOWjab6OqRU45eTsuY_N0MT71lM"
 
 // Insert Authorized Email and Corresponding Password
-#define USER_EMAIL "dhruvvisariya1234@gmail.com"
-#define USER_PASSWORD "Dhruv@21"
+#define USER_EMAIL "ABCD1234@gmail.com"
+#define USER_PASSWORD "***********"
 
 // Insert Firebase storage bucket ID e.g bucket-name.appspot.com
 #define STORAGE_BUCKET_ID "object-d-and-i.appspot.com"
