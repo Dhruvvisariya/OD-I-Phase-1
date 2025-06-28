@@ -23,7 +23,7 @@ const char* ssid = "********";
 const char* password = "*******";
 
 // Insert Firebase project API Key
-#define API_KEY "AIzaSyCWlASauOWjab6OqRU45eTsuY_N0MT71lM"
+#define API_KEY "***********************************"
 
 // Insert Authorized Email and Corresponding Password
 #define USER_EMAIL "ABCD1234@gmail.com"
